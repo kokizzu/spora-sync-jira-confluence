@@ -6,7 +6,7 @@
       "use": "@nuxtjs/vercel-builder"
     },
     {
-      "src": "api/**",
+      "src": "api/index",
       "use": "@vercel/node"
     }
   ],

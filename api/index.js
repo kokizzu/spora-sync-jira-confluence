@@ -5,5 +5,4 @@ moduleAlias.addAliases({
   '~': resolve(__dirname, '../'),
 });
 
-
 export default require('./server').default;

@@ -7,16 +7,6 @@
     {
       "src": "nuxt.config.js",
       "use": "@nuxtjs/vercel-builder"
-    },
-    {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "(.*)",
-      "dest": "api/index.js"
     }
   ]
 }

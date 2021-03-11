@@ -2,6 +2,7 @@ export default {
   server: {
     port: process.env.PORT || 3000,
   },
+
   ssr: false,
   mode: 'universal',
   target: 'server',

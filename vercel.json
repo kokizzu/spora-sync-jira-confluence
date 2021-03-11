@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "config": {
+    "serverFiles": ["api/**"]
+  },
   "builds": [
     {
       "src": "nuxt.config.js",

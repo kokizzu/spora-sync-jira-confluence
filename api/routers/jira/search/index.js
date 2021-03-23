@@ -7,7 +7,12 @@ const { PROJECT_KEY } = process.env;
 export const get = async (req, res, next) => {
   const keys = (req.query.keys || '').replace(/\s*/g, '');
 
-  if (!keys) return res.error({ status: 400, message: 'missing required query : keys' });
+  if (!keys) {
+    return res.error({
+      message: 'missing required query : keys',
+      status: 400,
+    });
+  }
 
   const [err, resp] = await catchify(
     axios.get('/search', {

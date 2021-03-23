@@ -57,7 +57,6 @@ export default {
 
       if (err) {
         this.selectedSprint = null;
-
         this.$toast.add({
           severity: 'error',
           summary: 'Get Issues Failed!',

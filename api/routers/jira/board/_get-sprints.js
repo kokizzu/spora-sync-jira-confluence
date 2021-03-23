@@ -1,4 +1,4 @@
-import axios from '~/api/modules/axios/--jira-agile';
+import axios from '~/api/modules/axios/--jira--agile';
 
 const { BOARD_ID } = process.env;
 

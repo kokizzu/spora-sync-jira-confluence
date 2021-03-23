@@ -8,15 +8,17 @@ export const post = async (req, res) => {
 
   const issuesDetail = await getIssuesDetail(issueKeys);
 
-  const data = await postGrooming({
-    issues: issuesDetail,
-  });
+  res.json({ ...issuesDetail });
 
-  res.json({
-    data: {
-      id: data.id,
-      title: data.title,
-      url: new URL(`/wiki${data._links.webui}`, CONFLUENCE_URL).href,
-    },
-  });
+  // const data = await postGrooming({
+  //   issues: issuesDetail,
+  // });
+
+  // res.json({
+  //   data: {
+  //     id: data.id,
+  //     title: data.title,
+  //     url: new URL(`/wiki${data._links.webui}`, CONFLUENCE_URL).href,
+  //   },
+  // });
 };

@@ -2,17 +2,22 @@ import * as adf from '@atlaskit/adf-utils/builders';
 import axios from '~/api/modules/axios/--confluence';
 import extractGroomingDoc from '~/api/utils/adf/extract-grooming-doc';
 import buildSingleTable from './_build-single-table';
+import getIssuesDetail from './_get-issues-detail';
 
-export default ({
+export default async ({
   components,
   existing,
-  issues,
+  issueKeys,
 }) => {
   const existingAdf = JSON.parse(existing.body.atlas_doc_format.value);
   const existingIssues = extractGroomingDoc(existingAdf);
   const existingKeys = existingIssues.map(({ key }) => key);
 
-  const nonExistingIssues = issues.filter(({ key }) => (
+  const issuesDetail = await getIssuesDetail(issueKeys, {
+    contentId: existing.id,
+  });
+
+  const nonExistingIssues = issuesDetail.filter(({ key }) => (
     !existingKeys.includes(key)
   ));
 

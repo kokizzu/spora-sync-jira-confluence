@@ -21,12 +21,12 @@ const extractQnA = (taskList) => {
 };
 
 const sanitizeAdf = adf => traverse(adf, {
-  inlineCard: (node) => {
+  inlineCard (node) {
     node.attrs = pick(node.attrs, ['url']);
 
     return node;
   },
-  text: (node) => {
+  text (node) {
     const links = (node.marks || []).filter(mark => mark.type === 'link');
 
     links.forEach((link) => {

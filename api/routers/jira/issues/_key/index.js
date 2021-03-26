@@ -1,43 +1,37 @@
 import catchify from 'catchify';
-import getJiraComponents from './_get-jira-components';
-import addComment from './_add-comment';
-import filterComments from './_filter-comments';
-import getExistingComments from './_get-existing-comments';
-import patchIssue from './_patch-issue';
+
+import cleanupExistingJiraAttachments from './cleanup-jira-attachments';
+import convertQnaAsComment from './convert-qna-as-comment';
+import getGroomingData from './get-grooming-data';
+import patchIssue from './patch-issue';
+import uploadToJira from './upload-to-jira-media';
 
 export const patch = async (req, res) => {
   const { key } = req.params;
-  const { issue } = req.body;
+  const { groomingId: docId } = req.body;
 
-  const [errComponents, components] = await catchify(getJiraComponents());
+  const [
+    eGroomingData,
+    { issue, attachments },
+  ] = await catchify(getGroomingData(docId, key));
+  if (eGroomingData) return res.error(eGroomingData);
 
-  if (errComponents) return res.error(errComponents);
+  const [
+    eCleanupAttachments,
+  ] = await catchify(cleanupExistingJiraAttachments(key));
+  if (eCleanupAttachments) return res.error(eCleanupAttachments);
 
-  const filteredComponents = components
-    .filter(({ name }) => issue.components.includes(name));
+  const [
+    eUploadAttachments,
+    jiraAttachments,
+  ] = await catchify(uploadToJira(attachments, key));
+  if (eUploadAttachments) return res.error(eUploadAttachments);
 
-  const update = {
-    ...issue,
-    components: filteredComponents,
-  };
-
-  const [eUpdate] = await catchify(patchIssue(key, update));
-
+  const [eUpdate] = await catchify(patchIssue(issue, { jiraAttachments }));
   if (eUpdate) return res.error(eUpdate);
 
-  if (issue.comment_adf) {
-    const [eExistingComments, existingComments] = await catchify(
-      getExistingComments(key),
-    );
-
-    if (eExistingComments) return res.error(eExistingComments);
-
-    const filteredComments = filterComments(issue.comment_adf, existingComments);
-
-    const [eAddComment] = await catchify(addComment(key, filteredComments));
-
-    if (eAddComment) return res.error(eAddComment);
-  }
+  const [eComment] = await catchify(convertQnaAsComment(issue));
+  if (eComment) return res.error(eComment);
 
   return res.status(204).send();
 };

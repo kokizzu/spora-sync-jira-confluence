@@ -1,7 +1,8 @@
 <template lang="pug">
-  div
+  .o-app
     .o-sidebar
       p-menu(:model="items")
+
     .o-content: nuxt
 
     p-toast(position="bottom-right")
@@ -68,10 +69,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.o-app {
+  position: relative;
+  max-width: 1200px;
+  min-width: 780px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
 .o-sidebar {
   position: fixed;
   top: 5rem;
-  left: 2rem;
+  // left: 2rem;
   height: 100vh;
 
   /deep/ .p-menu {

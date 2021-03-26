@@ -6,15 +6,18 @@ import getJiraComponents from './_get-jira-components';
 import postGroomingAdd from './_post-grooming--add';
 import postGroomingNew from './_post-grooming--new';
 
-export default async ({ issues }) => {
+export default async ({ issueKeys }) => {
   const activeSprint = await getActiveSprint();
   const components = await getJiraComponents();
 
   const title = sprintf(GROOMING_TITLE, activeSprint.name);
 
-  const existing = await getExistingByTitle(title);
+  const existing = (await getExistingByTitle(title)) ||
+    (await postGroomingNew({ title }));
 
-  return existing
-    ? postGroomingAdd({ issues, components, existing })
-    : postGroomingNew({ issues, components, title });
+  return postGroomingAdd({
+    components,
+    existing,
+    issueKeys,
+  });
 };

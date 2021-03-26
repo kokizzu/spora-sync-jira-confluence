@@ -1,4 +1,4 @@
-import axios from '~/api/modules/axios/--jira-agile';
+import axios from '~/api/modules/axios/--jira--agile';
 import * as customfields from '~/api/constants/customfields';
 
 const { BOARD_ID } = process.env;
@@ -11,7 +11,7 @@ export default sprintId => axios.get(`/board/${BOARD_ID}/sprint/${sprintId}/issu
     .map(({ id, key, fields }) => ({
       id,
       key,
-      summary: fields[customfields.SUMMARY_KEY],
-      story_points: fields[customfields.STORY_POINTS_KEY],
+      [customfields.SUMMARY_KEY]: fields[customfields.SUMMARY_KEY],
+      [customfields.STORY_POINTS_KEY]: fields[customfields.STORY_POINTS_KEY],
     }))
 ));

@@ -8,7 +8,15 @@ import PDivider from 'primevue/divider';
 import PDropdown from 'primevue/dropdown';
 import PToolbar from 'primevue/toolbar';
 
+import {
+  SUMMARY_KEY,
+  STORY_POINTS_KEY,
+} from '~/api/constants/customfields';
+
 export default {
+  SUMMARY_KEY,
+  STORY_POINTS_KEY,
+
   components: {
     PButton,
     PColumn,
@@ -57,7 +65,6 @@ export default {
 
       if (err) {
         this.selectedSprint = null;
-
         this.$toast.add({
           severity: 'error',
           summary: 'Get Issues Failed!',
@@ -67,7 +74,7 @@ export default {
       } else {
         this.selectedIssues = [];
         this.issues = resp.data.sort((a, b) => (
-          (b.story_points || Infinity) - (a.story_points || Infinity)
+          (b[STORY_POINTS_KEY] || Infinity) - (a[STORY_POINTS_KEY] || Infinity)
         ));
       }
     },
@@ -96,8 +103,8 @@ export default {
         this.$toast.add({
           life: 3000,
           severity: 'success',
-          summary: 'Create Retro Success!',
-          detail: 'Retro document is successfully created.',
+          summary: 'Create Grooming Success!',
+          detail: 'Grooming document is successfully created.',
         });
       }
     },

@@ -42,6 +42,7 @@
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.0.0",
     "qs": "^6.9.4",
+    "redirect-ssl": "^2.0.1",
     "require-glob": "^3.2.0",
     "sass-loader": "^10.1.1",
     "sprintf-js": "^1.1.2",
